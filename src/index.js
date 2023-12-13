@@ -1,5 +1,5 @@
 import { AppRegistry } from "react-native";
-import App from "./WebApp";
+import App from "./PlatformDetection";
 
 AppRegistry.registerComponent("App", () => App);
 

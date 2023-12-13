@@ -4,7 +4,7 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 const App = () => {
   return (
     <View style={styles.app}>
-      <Text>Hello World</Text>
+      <Text>Hello Android</Text>
     </View>
   );
 };
