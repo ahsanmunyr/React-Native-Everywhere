@@ -1,27 +1,28 @@
-import { StyleSheet, Text, View, Platform } from 'react-native'
-import React from 'react'
-import WebApp from './WebApp'
-import App from './App'
-import Windows from './Windows'
+import {StyleSheet, Text, View, Platform} from 'react-native';
+import React from 'react';
+
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import WalkThroughScreen from './screens/WalkThroughScreen';
+import LoginScreen from './screens/LoginScreen';
+
+const Stack = createNativeStackNavigator();
 
 const PlatformDetection = () => {
-  if(Platform.OS == 'web'){
-    return(
-      <WebApp />
-    )
-  }
-  if(Platform.OS == 'android' || Platform.OS == 'ios'){
-    return(
-      <App />
-    )
-  }
-  if(Platform.OS == 'windows'){
-    return(
-      <Windows />
-    )
-  }
-}
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="LoginScreen">
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="WalkThroughScreen" component={WalkThroughScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-export default PlatformDetection
+export default PlatformDetection;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
