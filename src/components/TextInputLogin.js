@@ -8,7 +8,7 @@ import {
 import React, {memo, useCallback, useMemo, useState} from 'react';
 import {commonStyles} from '../constant/theme';
 //   import { genericRatio } from "../helper/helper";
-//   import { Feather } from "../constant/icon";
+  import { Feather } from "../constant/icon";
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -29,6 +29,24 @@ const TextInputLogin = ({
     return textVisibilty;
   }, [textVisibilty]);
   const textVisibiltyToggle = useCallback(val => setTextVisibility(val), []);
+
+  const ShowTogglePasswordSwicthView = useCallback(() => {
+    if (!isPasswordFields) return null;
+    return (
+      <TouchableOpacity
+        style={[commonStyles.center, styles.iconContainer]}
+        activeOpacity={0.9}
+        onPress={() => textVisibiltyToggle(!textVisibilty)}
+      >
+        <Feather
+          name={!toggleDisplayText ? "eye" : "eye-off"}
+          color={"#9CA3AF"}
+          size={responsiveFontSize(2)}
+        />
+      </TouchableOpacity>
+    );
+  }, [isPasswordFields, toggleDisplayText]);
+
 
   return (
     <View
@@ -56,7 +74,7 @@ const TextInputLogin = ({
           secureTextEntry={isPasswordFields && toggleDisplayText}
         />
       </View>
-      {/* <ShowTogglePasswordSwicthView /> */}
+      <ShowTogglePasswordSwicthView />
     </View>
   );
 };

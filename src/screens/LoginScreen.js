@@ -49,6 +49,7 @@ const LoginScreen = ({navigation}) => {
     if (!ValidateEmail(fields['email'])) {
       console.log('error', 'Please enter valid email address');
     }
+    navigation.navigate('OtpScreen')
   }, [fields]);
 
   const textValuePassword = useMemo(() => fields['password'], [fields]);
