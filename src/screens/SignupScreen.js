@@ -22,14 +22,14 @@ import {lockIcon, smsIcon} from '../constant/icon';
 import {COLORS} from '../constant/theme';
 import LinearGradient from 'react-native-linear-gradient';
 import {ValidateEmail} from '../helper/helper';
-const LoginScreen = ({navigation}) => {
+const SignupScreen = ({navigation}) => {
   const [isFocused, setFocused] = useState(false);
   const [isFocused1, setFocused1] = useState(false);
-
-  
+  const [isFocused2, setFocused2] = useState(false);
   const [fields, setFields] = useState({
-    email: 'ahsanmuneer81@gmail.com',
-    password: '123456',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const onChangeValue = useCallback(
@@ -52,6 +52,7 @@ const LoginScreen = ({navigation}) => {
   }, [fields]);
 
   const textValuePassword = useMemo(() => fields['password'], [fields]);
+  const textValueConfirmPassword = useMemo(() => fields['confirmPassword'], [fields]);
   const textValueEmail = useMemo(() => fields['email'], [fields]);
   return (
     <View style={styles.main}>
@@ -98,14 +99,12 @@ const LoginScreen = ({navigation}) => {
               color: 'black',
               fontSize: responsiveFontSize(4),
             }}>
-            Login
+            Create Account
           </Text>
-          <Text style={{fontFamily: 'Poppins-Light'}}>
-            Please sign in to continue
-          </Text>
+
           <View style={{marginVertical: 10, width: '100%'}}>
             <TextInputLogin
-              placeholderText={'Enter Email'}
+              placeholderText={'Email'}
               value={textValueEmail}
               IconView={<Image source={smsIcon} style={styles.iconSize} />}
               getValueCB={text => onChangeValue('email', text)}
@@ -114,7 +113,7 @@ const LoginScreen = ({navigation}) => {
               UI={isFocused}
             />
             <TextInputLogin
-              placeholderText={'Enter Password'}
+              placeholderText={'Password'}
               value={textValuePassword}
               //   isPasswordFields={true}
               IconView={<Image source={lockIcon} style={styles.iconSize} />}
@@ -123,6 +122,17 @@ const LoginScreen = ({navigation}) => {
               onFocus={() => setFocused1(true)}
               onBlur={() => setFocused1(false)}
               UI={isFocused1}
+            />
+              <TextInputLogin
+              placeholderText={'Confirm Password'}
+              value={textValueConfirmPassword}
+              //   isPasswordFields={true}
+              IconView={<Image source={lockIcon} style={styles.iconSize} />}
+              getValueCB={text => onChangeValue('confirmPassword', text)}
+              isPasswordFields={true}
+              onFocus={() => setFocused2(true)}
+              onBlur={() => setFocused2(false)}
+              UI={isFocused2}
             />
             <View
               style={{
@@ -185,7 +195,7 @@ const LoginScreen = ({navigation}) => {
         <TouchableOpacity
         style={{justifyContent:'center',alignItems:'center'}}
           onPress={() => {
-            navigation.navigate('Signup');
+            navigation.navigate('LoginScreen');
           }}>
           <Text
             style={{
@@ -193,7 +203,8 @@ const LoginScreen = ({navigation}) => {
               color: COLORS.primary,
               fontSize: responsiveFontSize(1.7),
             }}>
-         Don't gave an account? <Text style={{ fontFamily: 'Poppins-ExtraBold',}}>Sign up</Text>
+            Already have an account?{' '}
+            <Text style={{fontFamily: 'Poppins-ExtraBold'}}>Login</Text>
           </Text>
         </TouchableOpacity>
       </View>
@@ -201,7 +212,7 @@ const LoginScreen = ({navigation}) => {
   );
 };
 
-export default LoginScreen;
+export default SignupScreen;
 
 const styles = StyleSheet.create({
   main: {
