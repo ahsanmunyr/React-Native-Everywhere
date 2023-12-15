@@ -1,5 +1,5 @@
 const config = {
-    base_url:"http://oduapi.revakiapi.com.asp1-101.phx1-1.websitetestlink.com",
+    base_url:"",
     timeout:1000*60*30,
  };
  

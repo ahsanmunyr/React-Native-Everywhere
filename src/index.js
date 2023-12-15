@@ -28,8 +28,8 @@ if (style.styleSheet) {
   style.styleSheet.cssText = regularFontStyles;
 } else {
   style.appendChild(document.createTextNode(regularFontStyles));
-  style.appendChild(document.createTextNode(semiFontStyles));
-  style.appendChild(document.createTextNode(thinFontStyles));
+  style.appendChild(document.createTextNode(regularFontFeather));
+  style.appendChild(document.createTextNode(regularFontAntDesign));
 
 }
 

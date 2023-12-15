@@ -116,7 +116,6 @@ const LoginScreen = ({navigation}) => {
             <TextInputLogin
               placeholderText={'Enter Password'}
               value={textValuePassword}
-              //   isPasswordFields={true}
               IconView={<Image source={lockIcon} style={styles.iconSize} />}
               getValueCB={text => onChangeValue('password', text)}
               isPasswordFields={true}
@@ -137,8 +136,6 @@ const LoginScreen = ({navigation}) => {
                 }}
                 activeOpacity={0.4}
                 style={{
-                  // width: responsiveWidth(40),
-                  // paddingHorizontal: responsiveScreenFontSize(),
                   height: responsiveScreenHeight(5),
                   alignSelf: 'flex-end',
                 }}>
@@ -147,11 +144,8 @@ const LoginScreen = ({navigation}) => {
                   end={{x: 1, y: 0}}
                   colors={['#fc8a6d', COLORS.primary]}
                   style={{
-                    // width: '100%',
                     height: responsiveScreenHeight(5),
                     paddingHorizontal: responsiveScreenFontSize(4),
-                    // paddingVertical:responsiveScreenFontSize(1),
-                    // backgroundColor: COLORS.primary,
                     justifyContent: 'space-around',
                     alignItems: 'center',
                     flexDirection: 'row',
