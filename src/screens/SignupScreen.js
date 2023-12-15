@@ -22,6 +22,7 @@ import {lockIcon, smsIcon} from '../constant/icon';
 import {COLORS} from '../constant/theme';
 import LinearGradient from 'react-native-linear-gradient';
 import {ValidateEmail} from '../helper/helper';
+import { tablet } from '../theme/Platform';
 const SignupScreen = ({navigation}) => {
   const [isFocused, setFocused] = useState(false);
   const [isFocused1, setFocused1] = useState(false);
@@ -86,7 +87,7 @@ const SignupScreen = ({navigation}) => {
             <AntDesign
               name="left"
               color="white"
-              size={responsiveScreenFontSize(2)}
+              size={responsiveScreenFontSize(tablet? 1 :2)}
             />
           </LinearGradient>
         </TouchableOpacity>
@@ -97,7 +98,7 @@ const SignupScreen = ({navigation}) => {
             style={{
               fontFamily: 'Poppins-ExtraBold',
               color: 'black',
-              fontSize: responsiveFontSize(4),
+              fontSize: responsiveFontSize(tablet ? 2 : 4),
             }}>
             Create Account
           </Text>
@@ -149,7 +150,7 @@ const SignupScreen = ({navigation}) => {
                 style={{
                   // width: responsiveWidth(40),
                   // paddingHorizontal: responsiveScreenFontSize(),
-                  height: responsiveScreenHeight(5),
+                  height:  responsiveScreenHeight(tablet? 6 : 5),
                   alignSelf: 'flex-end',
                 }}>
                 <LinearGradient
@@ -171,14 +172,14 @@ const SignupScreen = ({navigation}) => {
                     style={{
                       fontFamily: 'Poppins-Medium',
                       color: 'white',
-                      fontSize: responsiveFontSize(2),
+                      fontSize: responsiveFontSize(tablet? 1:2),
                     }}>
                     Next {'  '}
                   </Text>
                   <AntDesign
                     name="right"
                     color="white"
-                    size={responsiveScreenFontSize(2)}
+                    size={responsiveScreenFontSize(tablet? 1:2)}
                   />
                 </LinearGradient>
               </TouchableOpacity>
@@ -201,7 +202,7 @@ const SignupScreen = ({navigation}) => {
             style={{
               fontFamily: 'Poppins-Light',
               color: COLORS.primary,
-              fontSize: responsiveFontSize(1.7),
+              fontSize: responsiveFontSize(tablet? 1 : 1.7),
             }}>
             Already have an account?{' '}
             <Text style={{fontFamily: 'Poppins-ExtraBold'}}>Login</Text>

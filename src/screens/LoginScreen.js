@@ -22,11 +22,11 @@ import {lockIcon, smsIcon} from '../constant/icon';
 import {COLORS} from '../constant/theme';
 import LinearGradient from 'react-native-linear-gradient';
 import {ValidateEmail} from '../helper/helper';
+import {tablet} from '../theme/Platform';
 const LoginScreen = ({navigation}) => {
   const [isFocused, setFocused] = useState(false);
   const [isFocused1, setFocused1] = useState(false);
 
-  
   const [fields, setFields] = useState({
     email: 'ahsanmuneer81@gmail.com',
     password: '123456',
@@ -85,7 +85,7 @@ const LoginScreen = ({navigation}) => {
             <AntDesign
               name="left"
               color="white"
-              size={responsiveScreenFontSize(2)}
+              size={responsiveScreenFontSize(tablet? 1 :2)}
             />
           </LinearGradient>
         </TouchableOpacity>
@@ -96,11 +96,15 @@ const LoginScreen = ({navigation}) => {
             style={{
               fontFamily: 'Poppins-ExtraBold',
               color: 'black',
-              fontSize: responsiveFontSize(4),
+              fontSize: responsiveFontSize(tablet ? 2 : 4),
             }}>
             Login
           </Text>
-          <Text style={{fontFamily: 'Poppins-Light'}}>
+          <Text
+            style={{
+              fontFamily: 'Poppins-Light',
+              fontSize: responsiveFontSize(tablet ? 1 : 2),
+            }}>
             Please sign in to continue
           </Text>
           <View style={{marginVertical: 10, width: '100%'}}>
@@ -136,7 +140,7 @@ const LoginScreen = ({navigation}) => {
                 }}
                 activeOpacity={0.4}
                 style={{
-                  height: responsiveScreenHeight(5),
+                  height:  responsiveScreenHeight(tablet? 6 : 5),
                   alignSelf: 'flex-end',
                 }}>
                 <LinearGradient
@@ -155,14 +159,14 @@ const LoginScreen = ({navigation}) => {
                     style={{
                       fontFamily: 'Poppins-Medium',
                       color: 'white',
-                      fontSize: responsiveFontSize(2),
+                      fontSize: responsiveFontSize(tablet? 1:2),
                     }}>
                     Next {'  '}
                   </Text>
                   <AntDesign
                     name="right"
                     color="white"
-                    size={responsiveScreenFontSize(2)}
+                    size={responsiveScreenFontSize(tablet? 1: 2)}
                   />
                 </LinearGradient>
               </TouchableOpacity>
@@ -177,7 +181,7 @@ const LoginScreen = ({navigation}) => {
           width: '100%',
         }}>
         <TouchableOpacity
-        style={{justifyContent:'center',alignItems:'center'}}
+          style={{justifyContent: 'center', alignItems: 'center'}}
           onPress={() => {
             navigation.navigate('Signup');
           }}>
@@ -185,9 +189,10 @@ const LoginScreen = ({navigation}) => {
             style={{
               fontFamily: 'Poppins-Light',
               color: COLORS.primary,
-              fontSize: responsiveFontSize(1.7),
+              fontSize: responsiveFontSize(tablet? 1 : 1.7),
             }}>
-         Don't gave an account? <Text style={{ fontFamily: 'Poppins-ExtraBold',}}>Sign up</Text>
+            Don't gave an account?{' '}
+            <Text style={{fontFamily: 'Poppins-ExtraBold'}}>Sign up</Text>
           </Text>
         </TouchableOpacity>
       </View>
