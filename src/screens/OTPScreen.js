@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useCallback, useMemo, useState} from 'react';
-import {Revaki_logo} from '../constant/images';
+import {otpImage} from '../constant/images';
 import {AntDesign, Feather} from '../constant/icon';
 import {
   responsiveFontSize,
@@ -18,18 +18,15 @@ import {
 } from 'react-native-responsive-dimensions';
 import Heading from '../components/Text/Heading';
 import TextInputLogin from '../components/TextInputLogin';
-import {lockIcon, smsIcon} from '../constant/icon';
+// import {lockIcon, smsIcon} from '../constant/icon';
 import {COLORS} from '../constant/theme';
 import LinearGradient from 'react-native-linear-gradient';
 import {ValidateEmail} from '../helper/helper';
 import {tablet} from '../theme/Platform';
+import OTPInputView from 'react-native-otp-inputs';
 const OTPScreen = ({navigation}) => {
-  const [isFocused, setFocused] = useState(false);
-  const [isFocused1, setFocused1] = useState(false);
-
   const [fields, setFields] = useState({
-    otp: '',
-  
+    otp: '0000',
   });
 
   const onChangeValue = useCallback(
@@ -39,11 +36,16 @@ const OTPScreen = ({navigation}) => {
     [fields],
   );
 
-  const confirmHandler = useCallback(async () => {
+  // const confirmHandler = useCallback(async () => {}, [fields]);
 
-  }, [fields]);
+  const sendServerCheckOTP = useCallback(code => {
+    console.log(code);
+    onChangeValue('otp', code);
+    if (code.length === 4) {
+      // onRequest(code);
+    }
+  }, []);
 
-  const textValueOtp = useMemo(() => fields['otp'], [fields]);
   return (
     <View style={styles.main}>
       <View
@@ -85,12 +87,59 @@ const OTPScreen = ({navigation}) => {
         style={{
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: 'red',
-          height: responsiveScreenHeight(50),
+          // backgroundColor: 'red',
+          height: '100%',
           width: '80%',
         }}>
-          
+        <View
+          style={{
+            width: '100%',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            height: responsiveScreenHeight(50),
+          }}>
+          <Image
+            source={otpImage}
+            style={{
+              width: responsiveFontSize(tablet ? 15 : 30),
+              height: responsiveFontSize(tablet ? 15 : 30),
+            }}
+            resizeMode="contain"
+          />
+          <Text
+            style={{
+              textAlign: 'center',
+              fontFamily: 'Poppins-Light',
+              color: 'black',
+              letterSpacing: 1,
+              fontSize: responsiveFontSize(tablet ? 1 : 1.5),
+            }}>
+            A 4 digit code has been sent to your registered mobile number
+          </Text>
+          <Text
+            style={{
+              fontFamily: 'Poppins-Bold',
+              color: 'black',
+              letterSpacing: 1,
+              fontSize: responsiveFontSize(tablet ? 1.5 : 2.5),
+            }}>
+            Enter code to verify
+          </Text>
         </View>
+        <OTPInputView
+          style={[styles.OTP]}
+          pinCount={4}
+          autofillFromClipboard={true}
+          numberOfInputs={4}
+          secureTextEntry={true}
+          inputContainerStyles={[styles.OTPCodeBox]}
+          focusStyles={{borderColor: COLORS.primary}}
+          textAlign={'center'}
+          clearTextOnFocus
+          handleChange={sendServerCheckOTP}
+          keyboardType="phone-pad"
+        />
+      </View>
     </View>
   );
 };
@@ -104,6 +153,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
+  OTP: {
+    width: tablet ? '50%' : '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  OTPCodeBox: {
+    width: 50,
+    height: 50,
+    // backgroundColor: '#F3F4F6',
+    color: COLORS.black,
+    borderBottomWidth: 3,
+    // borderRadius: 10,
+    textAlign: 'center',
+    borderColor: '#E5E7EB',
+  },
+  LoginButtonContainer: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 10,
+  },
+
   webBox: {
     width: '30%',
     // height: '45%',

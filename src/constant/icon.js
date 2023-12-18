@@ -41,6 +41,8 @@ const notification = {
   Notification: require("../assets/icons/noti.png"),
 };
 
+
+
 const tab_icon = {
   Home: require("../assets/icons/tab_icon/home.png"),
   Bell: require("../assets/icons/tab_icon/bell.png"),
