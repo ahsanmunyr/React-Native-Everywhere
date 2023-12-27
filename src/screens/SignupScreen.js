@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState, memo} from 'react';
 import {Revaki_logo} from '../constant/images';
 import {AntDesign, Feather} from '../constant/icon';
 import {
@@ -208,7 +208,7 @@ const SignupScreen = ({navigation}) => {
   );
 };
 
-export default SignupScreen;
+export default memo(SignupScreen);
 
 const styles = StyleSheet.create({
   main: {

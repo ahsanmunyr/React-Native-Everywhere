@@ -18,6 +18,14 @@ import Animated, {
 import DrawerItemList from '../navigation/DrawerItemList';
 import Icon, {Icons} from './Icons';
 import {COLORS} from '../constant/theme';
+import { useDispatch } from 'react-redux';
+import {
+  responsiveScreenFontSize,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { OTP_TYPE } from '../store/actions/types';
+import { tablet } from '../theme/Platform';
 
 const constant = {
   SPACING: 16,
@@ -27,7 +35,18 @@ const constant = {
   subTextFontSize: 14,
 };
 
-const CustomDrawer = props => {
+const CustomDrawer = (props) => {
+  const dispatch = useDispatch()
+
+  async function logout(){
+   
+    dispatch({
+      type: OTP_TYPE,
+      payload: {}
+    });
+    navigation.navigate('LoginScreen')
+    await AsyncStorage.removeItem('userInfo');
+  }
   // console.log(props.state[0], "propsprops")
   const {state, descriptors, navigation} = props;
   const scrollRef = useRef(null);
@@ -106,6 +125,32 @@ const CustomDrawer = props => {
           </Text>
         </Animated.View>
       </Animated.ScrollView>
+      <Animated.View style={[styles.row, styles.view]}>
+        <TouchableOpacity
+        onPress={logout}
+        >
+          <View
+            style={{
+              height: responsiveScreenHeight(7),
+              width: '100%',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              flexDirection: 'row',
+              // backgroundColor: 'white',
+            }}>
+            <Icon
+              name="logout"
+              color={'white'}
+              type={Icons.SimpleLineIcons}
+              size={responsiveScreenFontSize(tablet? 1.5: 3)}
+            />
+            <Text
+              style={{color: 'white', fontSize: responsiveScreenFontSize(tablet ? 1: 2), fontFamily:'Poppins-Medium'}}>
+              {'   '}Logout
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </Animated.View>
       <TouchableOpacity onPress={fun}>
         <Animated.View
           style={[

@@ -6,9 +6,11 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState, memo} from 'react';
 import {Revaki_logo} from '../constant/images';
+import * as login from '../store/actions/loginAct';
 import {AntDesign, Feather} from '../constant/icon';
 import {
   responsiveFontSize,
@@ -23,13 +25,16 @@ import {COLORS} from '../constant/theme';
 import LinearGradient from 'react-native-linear-gradient';
 import {ValidateEmail} from '../helper/helper';
 import {tablet} from '../theme/Platform';
-const LoginScreen = ({navigation}) => {
+import {connect} from 'react-redux';
+import {screenNavigation} from '../helper/helper';
+const LoginScreen = ({navigation, login}) => {
   const [isFocused, setFocused] = useState(false);
   const [isFocused1, setFocused1] = useState(false);
 
   const [fields, setFields] = useState({
-    email: 'ahsanmuneer81@gmail.com',
-    password: '123456',
+    email: 'Od_Testing',
+    password: '@rT4441',
+    apiCalling: false,
   });
 
   const onChangeValue = useCallback(
@@ -40,20 +45,34 @@ const LoginScreen = ({navigation}) => {
   );
 
   const loginHandler = useCallback(async () => {
+    onChangeValue('apiCalling', true);
     if (fields['email'] === '') {
       console.log('error', 'Please enter email address');
     }
     if (fields['password'] === '') {
       console.log('error', 'Please enter password');
     }
+
     if (!ValidateEmail(fields['email'])) {
       console.log('error', 'Please enter valid email address');
     }
-    navigation.navigate('OtpScreen')
+
+    login(textValueEmail, textValuePassword).then(res => {
+      const {Status, Message} = res;
+      console.log(Status, Message, "Status, Message")
+      if (Status) {
+        screenNavigation(navigation, 'OtpScreen');
+      } else {
+        console.error(Message);
+      }
+      onChangeValue('apiCalling', false);
+    });
   }, [fields]);
 
   const textValuePassword = useMemo(() => fields['password'], [fields]);
   const textValueEmail = useMemo(() => fields['email'], [fields]);
+  const apiCall = useMemo(() => fields['apiCalling'], [fields]);
+
   return (
     <View style={styles.main}>
       <View
@@ -86,7 +105,7 @@ const LoginScreen = ({navigation}) => {
             <AntDesign
               name="left"
               color="white"
-              size={responsiveScreenFontSize(tablet? 1 :2)}
+              size={responsiveScreenFontSize(tablet ? 1 : 2)}
             />
           </LinearGradient>
         </TouchableOpacity>
@@ -141,7 +160,7 @@ const LoginScreen = ({navigation}) => {
                 }}
                 activeOpacity={0.4}
                 style={{
-                  height:  responsiveScreenHeight(tablet? 6 : 5),
+                  height: responsiveScreenHeight(tablet ? 6 : 5),
                   alignSelf: 'flex-end',
                 }}>
                 <LinearGradient
@@ -156,19 +175,29 @@ const LoginScreen = ({navigation}) => {
                     flexDirection: 'row',
                     borderRadius: responsiveScreenFontSize(5),
                   }}>
-                  <Text
-                    style={{
-                      fontFamily: 'Poppins-Medium',
-                      color: 'white',
-                      fontSize: responsiveFontSize(tablet? 1:2),
-                    }}>
-                    Next {'  '}
-                  </Text>
-                  <AntDesign
-                    name="right"
-                    color="white"
-                    size={responsiveScreenFontSize(tablet? 1: 2)}
-                  />
+                  {apiCall ? (
+                    <ActivityIndicator
+                      style={{paddingHorizontal: responsiveScreenFontSize(3)}}
+                      color={COLORS.white}
+                      size={responsiveScreenFontSize(tablet? 2: 3)}
+                    />
+                  ) : (
+                    <>
+                      <Text
+                        style={{
+                          fontFamily: 'Poppins-Medium',
+                          color: 'white',
+                          fontSize: responsiveFontSize(tablet ? 1 : 2),
+                        }}>
+                        Next {'  '}
+                      </Text>
+                      <AntDesign
+                        name="right"
+                        color="white"
+                        size={responsiveScreenFontSize(tablet ? 1 : 2)}
+                      />
+                    </>
+                  )}
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -190,7 +219,7 @@ const LoginScreen = ({navigation}) => {
             style={{
               fontFamily: 'Poppins-Light',
               color: COLORS.primary,
-              fontSize: responsiveFontSize(tablet? 1 : 1.7),
+              fontSize: responsiveFontSize(tablet ? 1 : 1.7),
             }}>
             Don't gave an account?{' '}
             <Text style={{fontFamily: 'Poppins-ExtraBold'}}>Sign up</Text>
@@ -201,7 +230,7 @@ const LoginScreen = ({navigation}) => {
   );
 };
 
-export default LoginScreen;
+export default connect(null, login)(memo(LoginScreen));
 
 const styles = StyleSheet.create({
   main: {

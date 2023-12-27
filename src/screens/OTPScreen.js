@@ -6,8 +6,9 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState, memo} from 'react';
 import {otpImage} from '../constant/images';
 import {AntDesign, Feather} from '../constant/icon';
 import {
@@ -21,12 +22,16 @@ import TextInputLogin from '../components/TextInputLogin';
 // import {lockIcon, smsIcon} from '../constant/icon';
 import {COLORS} from '../constant/theme';
 import LinearGradient from 'react-native-linear-gradient';
-import {ValidateEmail} from '../helper/helper';
+import {ValidateEmail, screenNavigation} from '../helper/helper';
 import {tablet} from '../theme/Platform';
 import OTPInputView from 'react-native-otp-inputs';
-const OTPScreen = ({navigation}) => {
+import {connect} from 'react-redux';
+import * as loginRed from '../store/reducer/loginRed';
+import * as otpAct from '../store/actions/otpAct';
+const OTPScreen = ({navigation, loginRed, otpAct}) => {
   const [fields, setFields] = useState({
-    otp: '0000',
+    otp: '3333',
+    apiCalling: false,
   });
 
   const onChangeValue = useCallback(
@@ -36,15 +41,32 @@ const OTPScreen = ({navigation}) => {
     [fields],
   );
 
-  // const confirmHandler = useCallback(async () => {}, [fields]);
-
   const sendServerCheckOTP = useCallback(code => {
-    console.log(code);
     onChangeValue('otp', code);
+    const {Token} = loginRed?.UserData;
     if (code.length === 4) {
-      // onRequest(code);
+      otpAct(code, Token)
+        .then(res => {
+          onChangeValue('apiCalling', true);
+          const {Status, Message} = res;
+          if (Status) {
+            screenNavigation(navigation, 'DrawableScreen');
+            // console.warn("DONE");
+          } else {
+            console.warn(Message);
+            screenNavigation(navigation, 'LoginScreen');
+          }
+          onChangeValue('apiCalling', false);
+        })
+        .catch(err => {
+          screenNavigation(navigation, 'LoginScreen');
+          onChangeValue('apiCalling', false);
+          console.log(err, 'OTP ERROR');
+        });
     }
   }, []);
+
+  const apiCall = useMemo(() => fields['apiCalling'], [fields]);
 
   return (
     <View style={styles.main}>
@@ -126,25 +148,40 @@ const OTPScreen = ({navigation}) => {
             Enter code to verify
           </Text>
         </View>
-        <OTPInputView
-          style={[styles.OTP]}
-          pinCount={4}
-          autofillFromClipboard={true}
-          numberOfInputs={4}
-          secureTextEntry={true}
-          inputContainerStyles={[styles.OTPCodeBox]}
-          focusStyles={{borderColor: COLORS.primary}}
-          textAlign={'center'}
-          clearTextOnFocus
-          handleChange={sendServerCheckOTP}
-          keyboardType="phone-pad"
-        />
+        {!apiCall ? (
+          <OTPInputView
+            style={[styles.OTP]}
+            pinCount={4}
+            autofillFromClipboard={true}
+            numberOfInputs={4}
+            secureTextEntry={true}
+            inputContainerStyles={[styles.OTPCodeBox]}
+            focusStyles={{borderColor: COLORS.primary}}
+            textAlign={'center'}
+            clearTextOnFocus
+            handleChange={sendServerCheckOTP}
+            keyboardType="phone-pad"
+          />
+        ) : (
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator
+              size={responsiveScreenFontSize(5)}
+              color={COLORS.primary}
+            />
+          </View>
+        )}
       </View>
     </View>
   );
 };
 
-export default OTPScreen;
+function mapStateToProps({loginRed}) {
+  return {
+    loginRed,
+  };
+}
+
+export default connect(mapStateToProps, otpAct)(memo(OTPScreen));
 
 const styles = StyleSheet.create({
   main: {

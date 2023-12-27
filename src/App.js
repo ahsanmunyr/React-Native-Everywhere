@@ -1,43 +1,22 @@
-import React from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Platform} from 'react-native';
+import React, {useEffect} from 'react';
+import StackNavigation from './navigation/StackNavigation';
+import store, {persistor} from './store';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
 
 const App = () => {
+  // console.log(store, "store")
   return (
-    <View style={styles.app}>
-    </View>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <StackNavigation />
+      </PersistGate>
+    </Provider>
   );
 };
 
 export default App;
 
-const styles = StyleSheet.create({
-  app: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logo: {
-    height: 80,
-  },
-  header: {
-    padding: 20,
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: '1.5rem',
-    marginVertical: '1em',
-    textAlign: 'center',
-  },
-  text: {
-    lineHeight: '1.5em',
-    fontSize: '1.125rem',
-    marginVertical: '1em',
-    textAlign: 'center',
-  },
-  link: {
-    color: '#1B95E0',
-  },
-  code: {
-    fontFamily: 'monospace, monospace',
-  },
-});
+const styles = StyleSheet.create({});
+

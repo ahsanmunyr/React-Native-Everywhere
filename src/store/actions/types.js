@@ -1,0 +1,7 @@
+export const DRAWABLE_WITH_VALUE="DRAWABLE_WITH_VALUE"
+export const LOGIN_TYPE_VALUE = "LOGIN_TYPE_VALUE"
+export const OTP_TYPE = "OTP_TYPE"
+export const LOGOUT_TYPE = "LOGOUT_TYPE"
+export const USER_DATA_TYPE = "USER_DATA_TYPE"
+export const CATEGORY_DATA_TYPE = "CATEGORY_DATA_TYPE"
+export const DISH_LIST = "DISH_LIST"

@@ -1,29 +1,30 @@
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 // import {createDrawerNavigator} from '@react-navigation/drawer';
 import {
   DrawerContentScrollView,
   createDrawerNavigator,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import styled from 'styled-components/native';
 import Animated from 'react-native-reanimated';
 import {Ionicons} from '../constant/icon';
 import CustomDrawer from '../components/CustomDrawer';
 import {COLORS} from '../constant/theme';
 import {ScreensArray} from '../constants/stackArray';
+import {connect} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
-
-const DrawableScreen = () => {
+const DrawableScreen = ({}) => {
   return (
     <Drawer.Navigator
-      drawerContent={props => <CustomDrawer {...props} />}
+      drawerContent={props => (
+        <CustomDrawer  {...props} />
+      )}
       screenOptions={{
         overlayColor: 'transparent',
         drawerType: 'slide',
-        swipeEdgeWidth: Platform.OS === 'android' && 180,
+        swipeEdgeWidth: Platform.OS === 'android' && 50,
         headerShown: false,
         sceneContainerStyle: {
           backgroundColor: COLORS.primary,
@@ -47,6 +48,7 @@ const DrawableScreen = () => {
     </Drawer.Navigator>
   );
 };
+
 
 export default DrawableScreen;
 

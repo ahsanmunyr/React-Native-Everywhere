@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {memo} from 'react';
 import LottieView from 'lottie-react-native';
 import {
   responsiveFontSize,
@@ -95,6 +95,6 @@ const WalkThroughScreen = ({navigation}) => {
   );
 };
 
-export default WalkThroughScreen;
+export default memo(WalkThroughScreen);
 
 const styles = StyleSheet.create({});
