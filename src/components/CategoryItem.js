@@ -7,10 +7,14 @@ import {
 } from 'react-native-responsive-dimensions';
 import {tablet} from '../theme/Platform';
 
-const CategoryItems = ({index, item, setProducts, products}) => {
+const CategoryItems = ({index, item, setProducts, products,onSetCategory}) => {
   // console.log(item, 'item');
   return (
-    <TouchableOpacity onPress={() => setProducts('products', item)}>
+    <TouchableOpacity onPress={() => {
+      setProducts('products', item)
+      onSetCategory(item)
+      // setCategoryId('categoryId', item?.CategoryId)
+      }}>
       <View
         key={index}
         style={{

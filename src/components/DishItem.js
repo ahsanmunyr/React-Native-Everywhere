@@ -9,6 +9,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {COLORS} from '../constant/theme';
 import {tablet} from '../theme/Platform';
+import {SheetManager} from 'react-native-actions-sheet';
 
 const DishItem = ({index, item}) => {
   // console.log(item, 'item========================');
@@ -42,7 +43,7 @@ const DishItem = ({index, item}) => {
         width: tablet ? '19.2%' : '48%',
         height: responsiveScreenHeight(25),
         // backgroundColor: 'white',
-        marginHorizontal: responsiveFontSize(tablet? 0.3: 0.5),
+        marginHorizontal: responsiveFontSize(tablet ? 0.3 : 0.5),
         marginVertical: responsiveFontSize(0.3),
         borderRadius: responsiveFontSize(1),
         shadowColor: '#000',
@@ -56,7 +57,24 @@ const DishItem = ({index, item}) => {
         elevation: 5,
       }}
       colors={['#f0f0f0', 'black']}>
-      <TouchableOpacity key={index}>
+      <TouchableOpacity
+        onPress={() => {
+          console.log(item?.Variants.length, "item")
+          if(item?.Variants.length == 0){
+            SheetManager.show('example-two-without-variant', {
+              payload: item,
+            });
+          }
+          if(item?.Variants.length == 1){
+               SheetManager.show('example-two', {
+            payload: item,
+          });
+          }
+          // SheetManager.show('example-two', {
+          //   payload: item,
+          // });
+        }}
+        key={index}>
         <View
           style={{
             flexDirection: 'column',
@@ -82,8 +100,8 @@ const DishItem = ({index, item}) => {
             </Text>
           </View>
           <Image
-            width={responsiveScreenWidth(100)}
-            height={tablet? 150: 200}
+            width={220}
+            height={tablet ? 150 : 200}
             style={{
               opacity: 0.9,
             }}
@@ -98,9 +116,9 @@ const DishItem = ({index, item}) => {
             position: 'absolute',
             bottom: 10,
             right: 10,
-            backgroundColor:'white',
+            backgroundColor: 'white',
             borderRadius: 12,
-            paddingHorizontal: 6
+            paddingHorizontal: 6,
           }}>
           <Text
             style={{

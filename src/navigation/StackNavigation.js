@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {COLORS} from '../constant/theme';
+import CartScreen from '../screens/CartScreen';
 const Stack = createNativeStackNavigator();
 
 const StackNavigation = ({otpRed}) => {
@@ -63,6 +64,7 @@ const StackNavigation = ({otpRed}) => {
         initialRouteName={login ? 'DrawableScreen' : 'WalkThroughScreen'}>
         <Stack.Screen name="WalkThroughScreen" component={WalkThroughScreen} />
         <Stack.Screen name="DrawableScreen" component={DrawableScreen} />
+        <Stack.Screen name="CartScreen" component={CartScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="OtpScreen" component={OTPScreen} />
